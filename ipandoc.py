@@ -1,7 +1,72 @@
 """
+# iPandoc
+
 Pure Python bindings to the online Docverter Pandoc document format conversion API.
-Karim Bahgat, 2015
+This way, you get access to the power of Pandoc from anywhere, without having to meddle 
+with installing anything. Useful for lightweight applications or when you want to avoid
+the overhead of a full pandoc installation.
+
+See: http://www.docverter.com/
+
+
+## Platforms
+
+Tested on Python version 2.x. 
+
+
+## Dependencies
+
+Pure Python, no dependencies. 
+
+
+## Installing it
+
+iPandoc is installed with pip from the commandline:
+
+    pip install ipandoc
+
+
+## Usage
+
+iPandoc is very simple to use. There is only one function,
+which converts a piece of text to another document format. 
+
+This can be pretty useful, especially for dynamically converting
+a project README file, which some people write in markdown format
+for displaying at GitHub, over to ReStructured text for displaying
+at PyPi (e.g. in your project's setup.py file). 
+
+    import ipandoc
+    markdown = open("README.md").read()
+    rst = ipandoc.convert(text=markdowntext,
+                          fromformat="markdown",
+                          toformat="rst")
+
+Of course, there are many other text formats you can convert between. See
+API documentation link for more details on usage and options. 
+
+
+## More Information:
+
+- [Home Page](http://github.com/karimbahgat/iPandoc)
+- [API Documentation](http://pythonhosted.org/iPandoc)
+
+
+## License:
+
+This code is free to share, use, reuse,
+and modify according to the MIT license, see license.txt
+
+
+## Credits:
+
+Karim Bahgat (2015)
+
 """
+
+__version__ = "0.1.0"
+
+
 import os
 import httplib
 import mimetypes
@@ -65,10 +130,19 @@ def _get_content_type(filename):
 
 def convert(text, fromformat, toformat, **options):
     """
-    - text: The text to be converted to another language format. If converting file use open(filepath).read(). Text should be encoded as raw byte string (e.g. "yourtext".encode(...)". 
-    - fromformat: From language format. FORMAT can be markdown (markdown), textile (Textile), rst (reStructuredText), html (HTML), docbook (DocBook XML), or latex (LaTeX).
-    - toformat: To language format. FORMAT can be markdown (markdown), rst (reStructuredText), html (XHTML 1), latex (LaTeX), context (ConTeXt), mediawiki (MediaWiki markup), textile (Textile), org (Emacs Org-Mode), texinfo (GNU Texinfo), docbook (DocBook XML), docx (Word docx), epub (EPUB book), mobi (Kindle book), asciidoc (AsciiDoc), or rtf (rich text format).
-    - **options: Supply any additional Pandoc options for the conversion process. Note: Options that are only meant to be set on or off should be specified as strings "true" or "false". See docverter api website for more details on options: http://www.docverter.com/api
+    Converts input text by sending it the Docverter online service.
+
+    Arguments:
+
+    - **text**: The text to be converted to another language format. If converting file use open(filepath).read(). Text should be encoded as raw byte string (e.g. "yourtext".encode(...)". 
+    - **fromformat**: From language format. FORMAT can be markdown (markdown), textile (Textile), rst (reStructuredText), html (HTML), docbook (DocBook XML), or latex (LaTeX).
+    - **toformat**: To language format. FORMAT can be markdown (markdown), rst (reStructuredText), html (XHTML 1), latex (LaTeX), context (ConTeXt), mediawiki (MediaWiki markup), textile (Textile), org (Emacs Org-Mode), texinfo (GNU Texinfo), docbook (DocBook XML), docx (Word docx), epub (EPUB book), mobi (Kindle book), asciidoc (AsciiDoc), or rtf (rich text format).
+    - **options** (optional): Supply any additional Pandoc keyword options for the conversion process. Note: Options that are only meant to be set on or off should be specified as strings "true" or "false". See docverter api website for more details on options: http://www.docverter.com/api
+
+    Returns:
+
+    - The converted text.
+    
     """
     # setup
     host = "c.docverter.com"
