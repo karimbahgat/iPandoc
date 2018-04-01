@@ -11,7 +11,7 @@ See: http://www.docverter.com/
 
 ## Platforms
 
-Tested on Python version 2.x. 
+Tested on Python version 2.x and 3.4.
 
 
 ## Dependencies
@@ -64,17 +64,25 @@ Karim Bahgat (2015)
 
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 import os
-import httplib
+import sys
 import mimetypes
+
+VERSION = sys.version_info.major
+
+if VERSION == 2:
+    import httplib
+else:
+    import http.client as httplib
 
 
 #######################
 # multipart form post method from: https://gist.github.com/wcaleb/b6a8c97ccb0f11bd16ab
 # see docverter example using this method: http://omz-forums.appspot.com/editorial/post/4955159939514368
 #######################
+
 
 def _post_multipart(host, selector, fields, files):
     """
@@ -85,6 +93,8 @@ def _post_multipart(host, selector, fields, files):
     """
     content_type, body = _encode_multipart_formdata(fields, files)
     h = httplib.HTTPConnection(host)
+    if VERSION == 3:
+        body = body.encode()
     h.putrequest('POST', selector)
     h.putheader('content-type', content_type)
     h.putheader('content-length', str(len(body)))
