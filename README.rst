@@ -12,7 +12,7 @@ See: http://www.docverter.com/
 Platforms
 ---------
 
-Tested on Python version 2.x.
+Tested on Python version 2.x and 3.4.
 
 Dependencies
 ------------
