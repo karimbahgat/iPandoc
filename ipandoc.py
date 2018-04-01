@@ -66,10 +66,10 @@ Karim Bahgat (2015)
 
 __version__ = "0.1.0"
 
-
 import os
 import httplib
 import mimetypes
+
 
 #######################
 # multipart form post method from: https://gist.github.com/wcaleb/b6a8c97ccb0f11bd16ab
@@ -92,9 +92,9 @@ def _post_multipart(host, selector, fields, files):
     h.send(body)
     response = h.getresponse()
     output = response.read()
-    return output
-    # return h.file.read()
- 
+    return output  # return h.file.read()
+
+
 def _encode_multipart_formdata(fields, files):
     """
     fields is a sequence of (name, value) elements for regular form fields.
@@ -120,9 +120,11 @@ def _encode_multipart_formdata(fields, files):
     body = CRLF.join(L)
     content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
     return content_type, body
- 
+
+
 def _get_content_type(filename):
     return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+
 
 #########################
 # end of borrowed multipart code
@@ -134,10 +136,17 @@ def convert(text, fromformat, toformat, **options):
 
     Arguments:
 
-    - **text**: The text to be converted to another language format. If converting file use open(filepath).read(). Text should be encoded as raw byte string (e.g. "yourtext".encode(...)". 
-    - **fromformat**: From language format. FORMAT can be markdown (markdown), textile (Textile), rst (reStructuredText), html (HTML), docbook (DocBook XML), or latex (LaTeX).
-    - **toformat**: To language format. FORMAT can be markdown (markdown), rst (reStructuredText), html (XHTML 1), latex (LaTeX), context (ConTeXt), mediawiki (MediaWiki markup), textile (Textile), org (Emacs Org-Mode), texinfo (GNU Texinfo), docbook (DocBook XML), docx (Word docx), epub (EPUB book), mobi (Kindle book), asciidoc (AsciiDoc), or rtf (rich text format).
-    - **options** (optional): Supply any additional Pandoc keyword options for the conversion process. Note: Options that are only meant to be set on or off should be specified as strings "true" or "false". See docverter api website for more details on options: http://www.docverter.com/api
+    - **text**: The text to be converted to another language format. If converting file use open(filepath).read().
+    Text should be encoded as raw byte string (e.g. "yourtext".encode(...)".
+    - **fromformat**: From language format. FORMAT can be markdown (markdown), textile (Textile),
+    rst (reStructuredText), html (HTML), docbook (DocBook XML), or latex (LaTeX).
+    - **toformat**: To language format. FORMAT can be markdown (markdown), rst (reStructuredText), html (XHTML 1),
+    latex (LaTeX), context (ConTeXt), mediawiki (MediaWiki markup), textile (Textile), org (Emacs Org-Mode),
+    texinfo (GNU Texinfo), docbook (DocBook XML), docx (Word docx), epub (EPUB book), mobi (Kindle book),
+    asciidoc (AsciiDoc), or rtf (rich text format).
+    - **options** (optional): Supply any additional Pandoc keyword options for the conversion process. Note: Options
+    that are only meant to be set on or off should be specified as strings "true" or "false". See docverter api
+    website for more details on options: http://www.docverter.com/api
 
     Returns:
 
@@ -149,17 +158,13 @@ def convert(text, fromformat, toformat, **options):
     selector = "/convert"
 
     # set parameters
-    files = [( "input_files[]", "puretext.txt", text )]
-    fields = [("from", fromformat),
-              ("to", toformat)]
+    files = [("input_files[]", "puretext.txt", text)]
+    fields = [("from", fromformat), ("to", toformat)]
 
     # add optional paramters
-    for key,value in options.items():
-        fields.append((key,value))
+    for key, value in options.items():
+        fields.append((key, value))
 
     # request
-    results = _post_multipart(host=host,
-                             selector=selector,
-                             fields=fields,
-                             files=files)
+    results = _post_multipart(host=host, selector=selector, fields=fields, files=files)
     return results
