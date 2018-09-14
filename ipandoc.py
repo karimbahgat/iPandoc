@@ -11,7 +11,7 @@ See: http://www.docverter.com/
 
 ## Platforms
 
-Tested on Python version 2.x and 3.4.
+Python 2 and 3.
 
 
 ## Dependencies
@@ -49,7 +49,7 @@ API documentation link for more details on usage and options.
 ## More Information:
 
 - [Home Page](http://github.com/karimbahgat/iPandoc)
-- [API Documentation](http://pythonhosted.org/iPandoc)
+- [API Documentation](https://karimbahgat.github.io/iPandoc/)
 
 
 ## License:
@@ -60,11 +60,11 @@ and modify according to the MIT license, see license.txt
 
 ## Credits:
 
-Karim Bahgat (2015)
+Karim Bahgat
 
 """
 
-__version__ = "0.1.1"
+__version__ = "1.0.0"
 
 import os
 import sys
